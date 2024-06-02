@@ -1,4 +1,3 @@
-// src/components/QuizStep.tsx
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store'
@@ -6,8 +5,9 @@ import { nextQuestion, prevQuestion } from '../features/quiz/quizSlice'
 import SingleChoiceQuestion from './SingleChoiceQuestion'
 import ShortAnswerQuestion from './ShortAnswerQuestion'
 import LongAnswerQuestion from './LongAnswerQuestion'
-import MultipleChoiceQuestion from './MultipleChoiseQuestion'
 import '../styles/quizStep.css'
+import MultipleChoiceQuestion from './MultipleChoiseQuestion'
+import { Button } from '@mui/material'
 
 const QuizStep: React.FC = () => {
 	const dispatch = useDispatch()
@@ -62,30 +62,38 @@ const QuizStep: React.FC = () => {
 	return (
 		<div>
 			<div className='progress-bar'>
-				{quiz.questions.map((_, index) => (
-					<div
-						key={index}
-						className={`progress-step ${
-							index <= quiz.currentQuestionIndex ? 'completed' : ''
-						}`}
-					></div>
-				))}
+				{quiz.questions.map((question, index) => {
+					const isAnswered =
+						quiz.answers[index] !== undefined && quiz.answers[index] !== ''
+					return (
+						<div
+							key={index}
+							className={`progress-step ${
+								index === quiz.currentQuestionIndex ? 'completed' : 'current'
+							} ${isAnswered ? 'answered' : ''}`}
+						></div>
+					)
+				})}
 			</div>
 			<div className='timer'>Time left: {quiz.timeLeft} seconds</div>
 			{renderQuestion()}
 			<div className='navigation-buttons'>
-				<button
+				<Button
+					size='medium'
+					variant='contained'
 					onClick={handlePrevious}
 					disabled={quiz.currentQuestionIndex === 0}
 				>
 					Previous
-				</button>
-				<button
+				</Button>
+				<Button
+					size='medium'
+					variant='contained'
 					onClick={handleNext}
 					disabled={quiz.currentQuestionIndex === quiz.questions.length - 1}
 				>
 					Next
-				</button>
+				</Button>
 			</div>
 		</div>
 	)

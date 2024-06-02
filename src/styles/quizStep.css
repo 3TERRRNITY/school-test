@@ -1,3 +1,4 @@
+/* src/components/QuizStep.css */
 .progress-bar {
 	display: flex;
 	margin-bottom: 20px;
@@ -6,12 +7,16 @@
 .progress-step {
 	flex: 1;
 	height: 5px;
-	background-color: lightgray;
+	background-color: red;
 	margin-right: 5px;
 }
 
-.progress-step.completed {
-	background-color: red;
+.progress-step.current {
+	background-color: lightgray;
+}
+
+.progress-step.answered {
+	background-color: black;
 }
 
 .timer {
