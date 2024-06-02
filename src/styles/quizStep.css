@@ -1,0 +1,31 @@
+.progress-bar {
+	display: flex;
+	margin-bottom: 20px;
+}
+
+.progress-step {
+	flex: 1;
+	height: 5px;
+	background-color: lightgray;
+	margin-right: 5px;
+}
+
+.progress-step.completed {
+	background-color: red;
+}
+
+.timer {
+	font-size: 1.2em;
+	margin-bottom: 20px;
+}
+
+.navigation-buttons {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20px;
+}
+
+button {
+	padding: 10px 20px;
+	font-size: 1em;
+}

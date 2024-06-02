@@ -1,71 +1,36 @@
-import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from './store'
-import { nextQuestion, prevQuestion } from './features/quiz/quizSlice'
-import SingleChoiceQuestion from './components/SingleChoiceQuestion'
-import ShortAnswerQuestion from './components/ShortAnswerQuestion'
-import LongAnswerQuestion from './components/LongAnswerQuestion'
-import MultipleChoiceQuestion from './components/MultipleChoiseQuestion'
+import { decrementTime, resetQuiz } from './features/quiz/quizSlice'
+import QuizStep from './components/QuizStep'
+import './styles/app.css'
 
 const App: React.FC = () => {
 	const dispatch = useDispatch()
 	const quiz = useSelector((state: RootState) => state.quiz)
-	const currentQuestion = quiz.questions[quiz.currentQuestionIndex]
 
-	const renderQuestion = () => {
-		switch (currentQuestion.type) {
-			case 'single':
-				return (
-					<SingleChoiceQuestion
-						question={currentQuestion.question}
-						options={currentQuestion.options!}
-						index={quiz.currentQuestionIndex}
-					/>
-				)
-			case 'multiple':
-				return (
-					<MultipleChoiceQuestion
-						question={currentQuestion.question}
-						options={currentQuestion.options!}
-						index={quiz.currentQuestionIndex}
-					/>
-				)
-			case 'short':
-				return (
-					<ShortAnswerQuestion
-						question={currentQuestion.question}
-						index={quiz.currentQuestionIndex}
-					/>
-				)
-			case 'long':
-				return (
-					<LongAnswerQuestion
-						question={currentQuestion.question}
-						index={quiz.currentQuestionIndex}
-					/>
-				)
-			default:
-				return <div>Unknown question type</div>
-		}
+	useEffect(() => {
+		const timer = setInterval(() => {
+			if (quiz.timeLeft > 0) {
+				dispatch(decrementTime())
+			} else {
+				clearInterval(timer)
+				alert('Time is up!')
+			}
+		}, 1000)
+
+		return () => clearInterval(timer)
+	}, [dispatch, quiz.timeLeft])
+
+	const handleRestart = () => {
+		dispatch(resetQuiz())
 	}
 
 	return (
-		<div>
-			{renderQuestion()}
-			<div>
-				<button
-					onClick={() => dispatch(prevQuestion())}
-					disabled={quiz.currentQuestionIndex === 0}
-				>
-					Previous
-				</button>
-				<button
-					onClick={() => dispatch(nextQuestion())}
-					disabled={quiz.currentQuestionIndex === quiz.questions.length - 1}
-				>
-					Next
-				</button>
-			</div>
+		<div className='app-container'>
+			<h1>Тестирование</h1>
+			<QuizStep />
+			<button onClick={handleRestart}>Restart Quiz</button>
 		</div>
 	)
 }
