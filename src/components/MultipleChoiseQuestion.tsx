@@ -3,6 +3,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store'
 import { setAnswer } from '../features/quiz/quizSlice'
+import { Checkbox } from '@mui/material'
 
 interface MultipleChoiceQuestionProps {
 	question: string
@@ -37,8 +38,7 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
 			<h3>{question}</h3>
 			{options.map((option, idx) => (
 				<div key={idx}>
-					<input
-						type='checkbox'
+					<Checkbox
 						value={option}
 						checked={answer.includes(option)}
 						onChange={handleChange}

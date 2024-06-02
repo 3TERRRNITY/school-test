@@ -75,7 +75,9 @@ const QuizStep: React.FC = () => {
 					)
 				})}
 			</div>
-			<div className='timer'>Time left: {quiz.timeLeft} seconds</div>
+			<div className='timer'>
+				<strong>Time left:</strong> <em>{quiz.timeLeft} секунд</em>
+			</div>
 			{renderQuestion()}
 			<div className='navigation-buttons'>
 				<Button

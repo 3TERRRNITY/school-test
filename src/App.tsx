@@ -4,6 +4,7 @@ import { RootState } from './store'
 import { decrementTime, resetQuiz } from './features/quiz/quizSlice'
 import QuizStep from './components/QuizStep'
 import './styles/app.css'
+import { Button, DialogTitle } from '@mui/material'
 
 const App: React.FC = () => {
 	const dispatch = useDispatch()
@@ -30,7 +31,9 @@ const App: React.FC = () => {
 		<div className='app-container'>
 			<h1>Тестирование</h1>
 			<QuizStep />
-			<button onClick={handleRestart}>Restart Quiz</button>
+			<Button variant='outlined' size='large' onClick={handleRestart}>
+				Restart Quiz
+			</Button>
 		</div>
 	)
 }
